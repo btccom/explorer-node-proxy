@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  openresty:
+    image: openresty/openresty:alpine
+    restart: always
+    privileged: true
+    container_name: openresty-lua
+    ports:
+      - "8888:80"
+      - "4430:443"
+    volumes:
+      - "./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf"
+      # - "./etc/openresty/conf.d:/usr/local/openresty/nginx/conf/conf.d"
+      - "./lua:/lua"
