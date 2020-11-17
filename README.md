@@ -17,6 +17,10 @@ lua 实现的一种面对多币种 rpc 的代理
 
 ## 安装
 
+```
+$ luarocks install lua-resty-balancer
+```
+
 ## 使用
 
 ## 参考资料
