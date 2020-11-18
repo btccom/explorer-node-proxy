@@ -19,8 +19,20 @@ req["time"] = ngx.req.start_time()
 req["method"] = ngx.req.get_method()
 req["get_args"] = ngx.req.get_uri_args()
 
-
-req["post_args"] = ngx.req.get_post_args()
+local receive_headers = ngx.req.get_headers()
+local content_type = receive_headers["content-type"] or receive_headers["Content-Type"]
+ngx.log(ngx.ERR, content_type)
+ngx.req.read_body()
+-- application/json
+if string.sub(content_type, 1, 16) == "application/json" then
+    local cjson = require('cjson')
+    local args = cjson.decode(ngx.req.get_body_data())
+    req["post_args"] = args
+end
+-- application/x-www-form-urlencoded
+if string.sub(content_type, 1, 32) == "application/x-www-form-urlencoded" then
+    req["post_args"] = ngx.req.get_post_args()
+end
 req["body"] = ngx.var.request_body
 
 content_type = getval(ngx.var.CONTENT_TYPE, "")
