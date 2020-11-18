@@ -25,4 +25,6 @@ local valid_methods = c.valid_method
 --     util.response(400, 'invalid method: ' .. method)
 -- end
 
+ngx.req.set_uri(c.location)
+ngx.req.set_uri_args({backend=request_uri})
 ngx.req.set_header('Authorization', 'Basic ' .. c.authorization.baseauthorization)
