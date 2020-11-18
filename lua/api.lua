@@ -1,6 +1,7 @@
 local balancer = require "ngx.balancer"
 local resty_roundrobin = require "resty.roundrobin"
 local util = require 'lua/utils'
+local config = require 'lua/config'
 
 local request_uri = ngx.var.uri
 local c = config[request_uri]
