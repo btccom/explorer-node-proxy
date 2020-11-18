@@ -22,10 +22,9 @@ req["get_args"] = ngx.req.get_uri_args()
 local receive_headers = ngx.req.get_headers()
 local content_type = receive_headers["content-type"] or receive_headers["Content-Type"]
 ngx.log(ngx.ERR, content_type)
-ngx.req.read_body()
 -- application/json
 if string.sub(content_type, 1, 16) == "application/json" then
-    local cjson = require('cjson')
+    ngx.req.read_body()
     local args = cjson.decode(ngx.req.get_body_data())
     req["post_args"] = args
 end
