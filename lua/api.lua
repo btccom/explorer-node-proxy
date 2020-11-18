@@ -1,12 +1,13 @@
 local balancer = require "ngx.balancer"
 local resty_roundrobin = require "resty.roundrobin"
+local util = require 'lua/utils'
 
-local server_list = {
-  ["127.0.0.1:1985"] = 2,
-  ["127.0.0.1:1986"] = 2,
-  ["127.0.0.1:1987"] = 1,
-}
+local request_uri = ngx.var.uri
+local c = config[request_uri]
+local server_list = c.upstream
+if server_list == nil then util.response(403) end
 
+-- roundrobin load balancing
 local rr_up = resty_roundrobin:new(server_list)
 package.loaded.my_rr_up = rr_up
 
