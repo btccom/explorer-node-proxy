@@ -8,6 +8,7 @@ local c = config[request_uri]
 local server_list = c.upstream
 if server_list == nil then util.response(403) end
 
+ngx.req.set_uri(c.location)
 -- roundrobin load balancing
 local rr_up = resty_roundrobin:new(server_list)
 package.loaded.my_rr_up = rr_up
