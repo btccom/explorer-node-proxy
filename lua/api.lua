@@ -4,8 +4,6 @@ local util = require 'lua/utils'
 local config = require 'lua/config'
 
 local request_uri = ngx.req.get_headers()['Node-Backend']
-ngx.log(ngx.ERR, "REQUEST get started")
-ngx.log(ngx.ERR, request_uri)
 local c = config[request_uri]
 local server_list = c.upstream
 if server_list == nil then util.response(403) end
